@@ -9,7 +9,9 @@ class User {
    * локальном хранилище.
    * */
   static setCurrent(user) {
-
+   localStorage.setItem(
+      'user', user
+    );
   }
 
   /**
@@ -17,7 +19,7 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-
+    localStorage.clear()
   }
 
   /**
@@ -42,9 +44,24 @@ class User {
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static login( data, callback = f => f ) {
-
+  static login(data, callback = f => f) {
+    createRequest({
+      data,
+      url: '/user' + '/login',
+      method: 'POST',
+      responseType: 'json',
+       callback: (err, response) => {
+         if (response.success && response.user != undefined && response.user.email != '') {
+           this.setCurrent(JSON.stringify(response));
+         } else {
+           console.log(err)
+           localStorage.clear()
+         }
+         callback();
+       }
+    })
   }
+  
 
   /**
    * Производит попытку регистрации пользователя.
@@ -52,8 +69,22 @@ class User {
    * сохранить пользователя через метод
    * User.setCurrent.
    * */
-  static register( data, callback = f => f ) {
-
+  static register(data, callback = f => f) {
+    createRequest({
+      data,
+      url: '/user' + '/register',
+      method: 'POST',
+      responseType: 'json',
+      callback: (err, response) => {
+        if (response.success) {
+          this.setCurrent(JSON.stringify(response));
+        } else {
+          console.log(err);
+          localStorage.clear();
+        }
+        callback();
+      }
+    })  
   }
 
   /**
@@ -61,6 +92,20 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout( data, callback = f => f ) {
-
+    createRequest({
+      data,
+      url: '/user' + '/register',
+      method: 'POST',
+      responseType: 'json',
+      callback: (err, response) => {
+        if (response.success) {
+          this.unsetCurrent();
+        } else {
+          console.log(err);
+          // localStorage.clear();
+        }
+        callback();
+      }
+    })  
   }
 }

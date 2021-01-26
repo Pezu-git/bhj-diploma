@@ -12,7 +12,13 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element;
+    if (this.element == undefined) {
+      alert('error');
+    } else {
+      this.registerEvents();
+    }
+    
   }
 
   /**
@@ -21,15 +27,23 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-
+    const thisModal = document.getElementById(`${this.element.id}`);
+    const dismiss = thisModal.querySelectorAll('[data-dismiss="modal"]');
+    for (let i = 0; i < dismiss.length; i++) {
+      dismiss[i].addEventListener('click', (e) => {
+        this.onClose(e);
+      })
+    }
   }
 
   /**
    * Срабатывает после нажатия на элементы, закрывающие окно.
    * Закрывает текущее окно (Modal.close())
    * */
-  onClose( e ) {
-
+  onClose(e) {
+    if (e.target.textContent == 'Закрыть' || 'x') {
+      this.close()
+    }
   }
   /**
    * Удаляет обработчики событий
@@ -42,12 +56,12 @@ class Modal {
    * со значением «block»
    * */
   open() {
-
+    this.element.style.display = 'block';
   }
   /**
    * Закрывает окно: удаляет CSS-свойство display
    * */
   close(){
-
+    this.element.style.display = 'none';
   }
 }

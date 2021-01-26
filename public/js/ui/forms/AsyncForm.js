@@ -1,3 +1,4 @@
+// const e = require("express");
 /**
  * Класс AsyncForm управляет всеми формами
  * приложения, которые не должны быть отправлены с
@@ -13,7 +14,12 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor( element ) {
-
+    this.element = element;
+    if (this.element == undefined) {
+      alert('error');
+    } else {
+      this.registerEvents()
+    }
   }
 
   /**
@@ -21,7 +27,11 @@ class AsyncForm {
    * вызывает метод submit()
    * */
   registerEvents() {
-
+    const btn = document.querySelector(`[form=${this.element.id}] `);
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.submit()
+      })
   }
 
   /**
@@ -32,11 +42,17 @@ class AsyncForm {
    * }
    * */
   getData() {
+    const forma = document.getElementById(this.element.id)
+    const inp = [...forma.querySelectorAll('input')];
+    let data = {};
+    for (let i = 0; i < inp.length; i++) {
+      data[inp[i].type] = inp[i].value;
+    }
+    return data;
+    
+  } 
 
-  }
-
-  onSubmit( options ) {
-
+  onSubmit(options) {
   }
 
   /**
@@ -44,6 +60,6 @@ class AsyncForm {
    * данные, полученные из метода getData()
    * */
   submit() {
-
+    this.onSubmit({ 'data': this.getData() })
   }
 }

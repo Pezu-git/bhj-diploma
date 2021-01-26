@@ -89,7 +89,7 @@ class App {
    * из него свойство modalName:
    * App.getModal( 'login' ); // извелекает App.modals.login
    * */
-  static getModal( modalName ) {
+  static getModal(modalName) {
     return this.modals[ modalName ];
   }
 
@@ -117,7 +117,7 @@ class App {
    * Возвращает форму по названию
    * Обращается к объекту App.forms и извлекает
    * из него свойство formName:
-   * App.getWidget( 'transactions' ); // извелекает App.forms.transactions
+   * App.getForm( 'transactions' ); // извелекает App.forms.transactions
    * */
   static getForm( formName ) {
     return this.forms[ formName ];
