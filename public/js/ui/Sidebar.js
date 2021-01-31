@@ -38,11 +38,11 @@ class Sidebar {
     for (let element in App.modals) {
       for (let i = 0; i < menuItems.length; i++) {
         menuItems[i].addEventListener('click', () => {
-          
           if (menuItems[i].className.includes(element)) {
             App.getModal(element).open();
-          } else {
-            App.setState( 'init' )
+          } else if (menuItems[i].className.includes('logout')) {
+            User.logout();
+            App.setState('init');     
           }
         })
       }

@@ -11,7 +11,7 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element;
   }
 
   /**
@@ -22,6 +22,8 @@ class UserWidget {
    * авторизованного пользователя
    * */
   update() {
+      const userName = this.element.querySelector('.user-name')
+      userName.textContent = User.current().name
 
   }
 }

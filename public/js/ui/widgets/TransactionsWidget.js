@@ -11,7 +11,7 @@ class TransactionsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element;
   }
   /**
    * Регистрирует обработчики нажатия на

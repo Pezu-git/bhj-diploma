@@ -13,7 +13,7 @@ class Modal {
    * */
   constructor( element ) {
     this.element = element;
-    if (this.element == undefined) {
+    if (this.element === undefined) {
       alert('error');
     } else {
       this.registerEvents();
@@ -42,7 +42,9 @@ class Modal {
    * */
   onClose(e) {
     if (e.target.textContent == 'Закрыть' || 'x') {
-      this.close()
+      const formOnClose = this.element.querySelector('form')
+      formOnClose.reset();
+      this.close();
     }
   }
   /**
