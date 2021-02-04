@@ -10,20 +10,16 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list(data, callback = f => f) {
-
-    return createRequest({
+   
+    createRequest({
       data,
-      url: '' + '/account',
+      url: this.url,
       method: 'GET',
       responseType: 'json',
-      callback: (err, response) => {
-        if (response) {
-          console.log(response); 
-        } else {
-          console.log('err');
-        }
-        callback();
-      }
+     callback: (err, response) => {
+      // AccountsWidget.getAccountHTML(response)
+       callback(err, response)
+     }
     })  
   }
 
@@ -33,19 +29,20 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create(data, callback = f => f) {
-    
+    // console.log(data)
     data = Object.assign({ _method: 'PUT' }, data);
+    console.log(data)
     return createRequest({
       data,
-      url: '' + this.URL,
+      url: this.url,
       method: 'POST',
       responseType: 'json',
       callback: (err, response) => {
-        console.log(response.user);
-        if (response & response.user) {
-          console.log(response); 
+        if (response) {
+
+          console.log(response)
         } else {
-          console.log('err');
+          callback(err)
         }
         callback();
       } 
@@ -56,8 +53,21 @@ class Entity {
    * Получает информацию о счёте или доходе/расходе
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static get( id = '', data, callback = f => f ) {
-console.log(data)
+  static get(id = '', data, callback = f => f) {
+    return createRequest({
+      data,
+      url: this.url,
+      method: 'POST',
+      responseType: 'json',
+      callback: (err, response) => {
+        if (response) {
+          callback(response)
+        } else {
+          callback(err)
+        }
+        callback();
+      } 
+    })
   }
 
   /**

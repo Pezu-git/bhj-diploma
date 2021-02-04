@@ -1,3 +1,5 @@
+
+
 /**
  * Класс AccountsWidget управляет блоком
  * отображения счетов в боковой колонке
@@ -17,6 +19,7 @@ class AccountsWidget {
     if (this.element === undefined) {
       console.log('error')
     } else {
+      
       this.registerEvents()
       this.update()
     }
@@ -57,9 +60,13 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-    User.current()
-    Account.list()
-    this.renderItem()
+    if (User.current()) {
+      Account.list(User.current(), (err, response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.renderItem(response.data[i]);
+        }
+      });
+    }
   }
 
   /**
@@ -79,7 +86,8 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount(element) {
-    this.element = element
+    console.log(element)
+    // console.log(this.element)
     // console.log(this.element)
     // const deleteActive = document.querySelector('.active') 
     // if (deleteActive) {
@@ -101,9 +109,13 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item) {
-    this.item = item 
-    // console.log(this.item)
-    // return item
+    return `
+    <li class="active account" data-id="35">
+      <a href="#">
+          <span>${item.name}</span> /
+          <span>${item.sum}</span>
+      </a>
+    </li>`
   }
 
   /**
@@ -113,9 +125,7 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(item) {
-    // console.log(item)
-    this.getAccountHTML()
-    // this.element.insertAdjacentHTML('beforeEnd', this.getAccountHTML(item))
+    this.element.insertAdjacentHTML('beforeEnd', this.getAccountHTML(item))
   }
 }
 

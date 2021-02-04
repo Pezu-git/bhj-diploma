@@ -5,20 +5,23 @@
  * на сервер.
  * */
 const createRequest = (options = {}) => {
-    console.log(options);
+    console.log(options)
     let xhr = new XMLHttpRequest();
+    xhr.responseType = options.responseType;
+
     if (options.method === 'POST') {
-        
         let formData = new FormData()
         for (let key in options.data) {
             formData.append(key, options.data[`${key}`]);
         }
-        try {
-            xhr.addEventListener('load', () => {
-                const response = JSON.parse(xhr.responseText);
-                const err = response;
-                options.callback(err, response);
-            })
+        try { 
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = this.response;
+                    const err = response;
+                    options.callback(err, response);
+                }
+            }
             xhr.open('POST', options.url);
             xhr.withCredentials = true;
             xhr.send(formData);
@@ -28,19 +31,22 @@ const createRequest = (options = {}) => {
         
     }
     if (options.method == 'GET') {
+        
         try {
-            let datas = [];
+            let dataGetmethod = [];
             for (let key in options.data) {
-                datas.push(`${key}=${options.data[`${key}`]}`);
+                dataGetmethod.push(`${key}=${options.data[`${key}`]}`);
             } 
-            xhr.open('GET', `${options.url}?${datas.join('&')}`)
+            xhr.open('GET', `${options.url}?${dataGetmethod.join('&')}`)
             xhr.withCredentials = true;
             xhr.send();
-            xhr.addEventListener('load', () => {
-                const response = JSON.parse(xhr.responseText)
-                const err = response.error;
-                options.callback(err, response);
-            })
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = xhr.response
+                    const err = response.error;
+                    options.callback(err, response);
+                }
+            }
         } catch (e) {
             options.callback(e);
         }

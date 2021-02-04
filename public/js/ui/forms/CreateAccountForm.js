@@ -16,11 +16,13 @@ class CreateAccountForm extends AsyncForm {
       for (let element in App.forms) {
         if (App.getForm(element).element === this.element) {
           App.getModal(element).close();
+          App.update();
           const thisInput = this.element.querySelector('input');
           thisInput.value = '';
         }
       }
-      App.update();
+      
     }); 
+    
   } 
 }
