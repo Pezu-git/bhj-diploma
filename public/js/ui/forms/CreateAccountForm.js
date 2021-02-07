@@ -11,7 +11,6 @@ class CreateAccountForm extends AsyncForm {
    * и сбрасывает форму
    * */
   onSubmit(options) {
-    console.log(options)
     Account.create(options, () => {
       for (let element in App.forms) {
         if (App.getForm(element).element === this.element) {

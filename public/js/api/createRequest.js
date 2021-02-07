@@ -16,7 +16,7 @@ const createRequest = (options = {}) => {
         }
         try { 
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState == xhr.DONE && xhr.status == 200) {
                     const response = this.response;
                     const err = response;
                     options.callback(err, response);
@@ -41,7 +41,7 @@ const createRequest = (options = {}) => {
             xhr.withCredentials = true;
             xhr.send();
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState == xhr.DONE  && xhr.status == 200) {
                     const response = xhr.response
                     const err = response.error;
                     options.callback(err, response);

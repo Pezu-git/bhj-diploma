@@ -3,13 +3,17 @@
  * создания новой транзакции
  * Наследуется от AsyncForm
  * */
-class CreateTransactionForm {
+class CreateTransactionForm extends AsyncForm {
   /**
    * Вызывает родительский конструктор и
    * метод renderAccountsList
    * */
-  constructor( element ) {
-
+  constructor(element) {
+    super(element)
+    console.log(element)
+    this.renderAccountsList()
+    // this.element = element
+    // console.log(element)
   }
 
   /**

@@ -10,14 +10,12 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static list(data, callback = f => f) {
-   
     createRequest({
       data,
       url: this.url,
       method: 'GET',
       responseType: 'json',
      callback: (err, response) => {
-      // AccountsWidget.getAccountHTML(response)
        callback(err, response)
      }
     })  
@@ -29,23 +27,15 @@ class Entity {
    * что наследуется от Entity)
    * */
   static create(data, callback = f => f) {
-    // console.log(data)
     data = Object.assign({ _method: 'PUT' }, data);
-    console.log(data)
     return createRequest({
       data,
       url: this.url,
       method: 'POST',
       responseType: 'json',
-      callback: (err, response) => {
-        if (response) {
-
-          console.log(response)
-        } else {
-          callback(err)
+        callback: (err, response) => {
+          callback(err, response)
         }
-        callback();
-      } 
     })
   }
 
@@ -57,16 +47,11 @@ class Entity {
     return createRequest({
       data,
       url: this.url,
-      method: 'POST',
+      method: 'GET',
       responseType: 'json',
       callback: (err, response) => {
-        if (response) {
-          callback(response)
-        } else {
-          callback(err)
-        }
-        callback();
-      } 
+        callback(err, response)
+      }
     })
   }
 
@@ -75,7 +60,15 @@ class Entity {
    * (в зависимости от того, что наследуется от Entity)
    * */
   static remove( id = '', data, callback = f => f ) {
-    console.log(data)
+    return createRequest({
+      data,
+      url: this.url,
+      method: 'POST',
+      responseType: 'json',
+      callback: (err, response) => {
+        callback(err, response)
+      }
+    })
   }
 }
 
